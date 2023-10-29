@@ -3,22 +3,22 @@
 
 require("dotenv").config()
 const jwt = require("jsonwebtoken")
-const { blacklistModel } = require("../models/blacklist.model")
+const { BlacklistModel } = require("../models/blacklist.model")
 
 const auth = async (req, res, next) => {
     const token = req.headers.authorization?.split(" ")[1]
 
     try {
 
-        // let prev_token = await blacklistModel.find({ blacklist: { $in: token } })
+        let prev_token = await BlacklistModel.findOne({ blacklist: { $in: token } }) || false
 
 
-        // if (prev_token) {
-        //     res.status(200).json("please login!")
-        // }
+        if (prev_token) {
+            res.status(200).json("please login!")
+        }
 
 
-        // else {
+        else {
             const decoded = jwt.verify(token, "masai")
             if (decoded) {
                 console.log('decoded' , decoded , parseInt(decoded.userID))
@@ -30,7 +30,7 @@ const auth = async (req, res, next) => {
             }
 
             next()
-        // }
+        }
 
 
     } catch (err) {

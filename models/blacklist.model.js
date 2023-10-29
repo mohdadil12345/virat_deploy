@@ -8,9 +8,9 @@ const blacklistSchema = new mongoose.Schema({
 })
 
 
-const blacklistModel = mongoose.model("blacklist", blacklistSchema)
+const BlacklistModel = mongoose.model("blacklist", blacklistSchema)
 
 
 module.exports = {
-    blacklistModel
+    BlacklistModel
 }

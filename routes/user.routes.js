@@ -2,7 +2,7 @@
 const express = require("express")
 require("dotenv").config()
 const { UserModel } = require("../models/user.model")
-const { blacklistModel } = require("../models/blacklist.model")
+const { BlacklistModel } = require("../models/blacklist.model")
 
 
 
@@ -10,14 +10,6 @@ const userRouter = express.Router()
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
-
-// "name" : "dhoni",
-// "email" : "dhoni@gmail.com",
-// "gender" : "male",
-// "password" : "dhoni",
-// "age" : 24,
-// "city" : "aligarh",
-// "is_married" : "false"
 
 userRouter.post("/register", async (req, res) => {
 
@@ -94,14 +86,26 @@ userRouter.post("/logout", async (req, res) => {
 
         const token = req.headers.authorization?.split(" ")[1] || null
 
+        let atleastonetokenexist = await BlacklistModel.findOne()
+        
         if(token){
-            await blacklistModel.updateMany({}, { $push : {blacklist : [token]}})
-            res.status(200).json({ "msg": "Logout successfull" })
+            if (atleastonetokenexist) {
+                await BlacklistModel.updateMany({}, { $push : {blacklist : [token]}})
+                res.status(200).json({ "msg": "Logout successfull" })
+            }
+            else{
+                const blacklistUser = new BlacklistModel({  blacklist: [token]  })
+                await blacklistUser.save()
+                res.status(200).json({ "msg": "Logout successfull" })
+            }
         }
 
     } catch (err) {
         res.status(400).json({ error:err.message })
     }
+
+
+
 })
 
 
