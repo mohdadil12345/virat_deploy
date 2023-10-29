@@ -1,6 +1,4 @@
 
-
-
 require("dotenv").config()
 const jwt = require("jsonwebtoken")
 const { BlacklistModel } = require("../models/blacklist.model")
@@ -28,7 +26,6 @@ const auth = async (req, res, next) => {
     
                 console.log('req body',req.body)
             }
-
             next()
         }
 
@@ -39,8 +36,6 @@ const auth = async (req, res, next) => {
 
 
 }
-
-
 
 module.exports = {
     auth

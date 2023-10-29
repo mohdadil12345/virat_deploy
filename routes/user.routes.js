@@ -4,15 +4,12 @@ require("dotenv").config()
 const { UserModel } = require("../models/user.model")
 const { BlacklistModel } = require("../models/blacklist.model")
 
-
-
 const userRouter = express.Router()
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
 
 userRouter.post("/register", async (req, res) => {
-
     try {
         const { password, email, name } = req.body
         const user = await  UserModel.findOne({ email })
@@ -35,8 +32,6 @@ userRouter.post("/register", async (req, res) => {
 
 
         }
-
-
 
     } catch (err) {
         res.status(400).json({ error:err.message })
@@ -79,6 +74,10 @@ userRouter.post("/login", async (req, res) => {
 })
 
 
+
+
+
+
 // loogout
 userRouter.post("/logout", async (req, res) => {
 
@@ -107,12 +106,6 @@ userRouter.post("/logout", async (req, res) => {
 
 
 })
-
-
-
-
-
-
 
 
 

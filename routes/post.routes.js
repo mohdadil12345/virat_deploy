@@ -7,7 +7,7 @@ const { auth } = require("../middleware/auth.middleware")
 const postRouter = express.Router()
 
 
-
+// post
 postRouter.post("/add", auth, async (req, res) => {
     const { userID } = req.body
     try {
@@ -25,8 +25,7 @@ postRouter.post("/add", auth, async (req, res) => {
 })
 
 
-// const data = await PostModel.find({ userID: req.body.userID })
-
+// get 
 postRouter.get("/", auth, async (req, res) => {
     const { min_com, max_com, laptop, tablet, page } = req.query
     const query = { ...req.query }
@@ -56,8 +55,6 @@ postRouter.get("/", auth, async (req, res) => {
 
     try {
         const data = await PostModel.find({userID: req.body.userID , ...query}).skip(skip).limit(limit)
-        // query.userID = req.body.userID
-        // const data = await PostModel.find(query).skip(skip).limit(limit)
         res.status(200).send({ "msg": "Get all data", data })
 
 
@@ -86,7 +83,7 @@ postRouter.get("/top", async (req, res) => {
 
 
 
-
+// patch
 postRouter.patch("/update/:id", auth, async (req, res) => {
     const { id } = req.params
     const abc = await PostModel.findOne({ _id: id })
@@ -110,7 +107,7 @@ postRouter.patch("/update/:id", auth, async (req, res) => {
 
 
 
-
+//  delete
 postRouter.delete("/delete/:id", auth, async (req, res) => {
     const { id } = req.params
     const abc = await PostModel.findOne({ _id: id })
@@ -143,51 +140,6 @@ module.exports = {
 
 
 
-
-// // get       
-// moviRouter.get("/", async (req, res) => {
-//     const { sort, min_rating, max_rating, movie_name } = req.query
-//     const query = { ...req.query }
-//     delete query.sort
-//     delete query.min_rating
-//     delete query.max_rating
-//     delete query.movie_name
-//     if (min_rating) {
-//         if (!query.rating) {
-//             query.rating = {}
-//         }
-//         query.rating.$gt = min_rating
-//     }
-//     if (max_rating) {
-//         if (!query.rating) {
-//             query.rating = {}
-//         }
-//         query.rating.$lt = max_rating
-//     }
-//     if (movie_name) {
-//         query.movie_name = { $regex: movie_name }
-//     }
-
-//     try {
-//         if (sort) {
-//             if (sort == 'min') {
-//                 const data = await UserModel.find(query).sort({ rating: -1 })
-//                 res.status(200).send({ "msg": "Get all the movies", data })
-
-//             } else {
-//                 const data = await UserModel.find(query).sort({ rating: 1 })
-//                 res.status(200).send({ "msg": "Get all the movies", data })
-//             }
-//         }
-
-//         else {
-//             const data = await UserModel.find(query)
-//             res.status(200).send({ "msg": "Get all the movies", data })
-//         }
-//     } catch (err) {
-//         res.status(400).send({ "msg": err.message })
-//     }
-// })
 
 
 
